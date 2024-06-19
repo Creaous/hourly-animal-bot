@@ -25,22 +25,9 @@ def run_task(type):
 schedule.every().at("00:00").do(run_task, "unsplash")
 
 for time in ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"]:
+    print("Twitter task scheduled for {}".format(time))
     schedule.every().at(time).do(run_task, "twitter")
 
-try:
-    if read_timing("twitter") > 3600:
-        run_task("twitter")
-except:
-    run_task("twitter")
-
-try:
-    if read_timing("unsplash") > 18000:
-        run_task("unsplash")
-except:
-    run_task("unsplash")
-
-# Run the scheduled tasks and catch up on missed tasks
 while True:
-    print("Still running...")
     schedule.run_pending()
     time.sleep(1)
