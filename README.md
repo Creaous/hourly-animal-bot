@@ -26,7 +26,7 @@ docker run -it --rm --env-file .env twitter-unsplash-bot
 ### Manual
 
 2. Run `pip install -r requirements.txt`
-3. Run `python unsplash.py` to run the scheduler.
+3. Run `python scheduler.py` to run the scheduler.
 
 _have the download count set to atleast 5-6 otherwise the bot won't have any posts to make since it only runs the download task every 5 hours_
 
