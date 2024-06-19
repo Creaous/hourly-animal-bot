@@ -8,6 +8,9 @@ load_dotenv()
 # Get list of files in image/ folder
 files = os.listdir('run/images/')
 
+# exclude all .gitkeep files
+files = [f for f in files if f != '.gitkeep']
+
 # Initialize client
 client = Client('en-US')
 

@@ -162,6 +162,3 @@ cython_debug/
 #.idea/
 
 venv/
-tmp/
-ids.txt
-run/
