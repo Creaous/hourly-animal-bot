@@ -1,0 +1,5 @@
+python-dotenv
+pyunsplash
+twikit
+schedule
+Pillow
