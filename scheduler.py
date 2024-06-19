@@ -22,11 +22,10 @@ def run_task(type):
     write_timing(type)
     subprocess.Popen(["python", f"{type}.py"])
 
-# Schedule the Unsplash task to run every 5 hours
-schedule.every(5).hours.do(run_task, "unsplash")
+schedule.every().at("00:00").do(run_task, "unsplash")
 
-# Schedule the Twitter task to run every 1 hour
-schedule.every(1).hours.do(run_task, "twitter")
+for time in ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"]:
+    schedule.every().at(time).do(run_task, "twitter")
 
 try:
     if read_timing("twitter") > 3600:
