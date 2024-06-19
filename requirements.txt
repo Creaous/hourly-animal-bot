@@ -2,4 +2,5 @@ python-dotenv
 pyunsplash
 twikit
 schedule
+pytz
 Pillow
