@@ -6,6 +6,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+print("Starting download and compression process...")
+print("Count:", os.getenv('UNSPLASH_DOWNLOAD_COUNT'))
+print("Query:", os.getenv('UNSPLASH_SEARCH_QUERY'))
+
 def get_existing_ids():
     with open("run/image_ids.txt", "r") as f:
         return f.read().splitlines()
@@ -53,7 +57,12 @@ for photo in photos.entries:
     with open(file, 'wb') as f:
         f.write(response.content)
 
+    print(f"Downloaded {photo.id}")
+
+    print(f"Compressing {photo.id}")
     compress_image(file)
 
     with open("run/image_ids.txt", "a") as f:
         f.write(photo.id + "\n")
+
+print("Completed downloading and compressing images.")
