@@ -1,17 +1,22 @@
 # Hourly Animal Bot
 
-Downloads images from Unsplash (every 5 hours) and posts them to Twitter (every hour).
+Downloads images from Unsplash (every midnight) and posts them to Twitter (every hour).
 
 ## Setup
 
-1. Create a `.env` file with the following variables:
-   - `TWITTER_USERNAME`
-   - `TWITTER_EMAIL`
-   - `TWITTER_PASSWORD`
-   - `TWITTER_TOTP_SECRET`
-   - `UNSPLASH_API_KEY`
-   - `UNSPLASH_DOWNLOAD_COUNT`
-   - `UNSPLASH_SEARCH_QUERY`
+- Create a `.env` file with the following variables:
+  - `TWITTER_USERNAME`
+  - `TWITTER_EMAIL`
+  - `TWITTER_PASSWORD`
+  - `TWITTER_TOTP_SECRET`
+  - `UNSPLASH_API_KEY`
+  - `UNSPLASH_SEARCH_QUERY`
+  - `UNSPLASH_RANDOM_QUERIES_LIST`
+  - `SCHEDULER_TIMEZONE`
+
+OR:
+
+- Copy `.env.example` to `.env` and fill in the values.
 
 ### Docker
 
@@ -25,10 +30,8 @@ docker run -it --rm --env-file .env twitter-unsplash-bot
 
 ### Manual
 
-2. Run `pip install -r requirements.txt`
-3. Run `python scheduler.py` to run the scheduler.
-
-_have the download count set to atleast 5-6 otherwise the bot won't have any posts to make since it only runs the download task every 5 hours_
+1. Run `pip install -r requirements.txt`
+2. Run `python scheduler.py` to run the scheduler.
 
 ## Removing Attribution
 

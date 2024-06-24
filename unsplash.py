@@ -1,5 +1,7 @@
 import os
 import requests
+import random
+import json
 from pyunsplash import PyUnsplash
 from PIL import Image
 from dotenv import load_dotenv
@@ -7,7 +9,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 print("Starting download and compression process...")
-print("Query:", os.getenv('UNSPLASH_SEARCH_QUERY'))
 
 def get_existing_ids():
     with open("run/image_ids.txt", "r") as f:
@@ -39,29 +40,48 @@ def compress_image(file_path, quality=85):
 
 pu = PyUnsplash(api_key=os.getenv('UNSPLASH_API_KEY'))
 
-photos = pu.photos(type_='random', count=48, featured=True, query=os.getenv('UNSPLASH_SEARCH_QUERY'))
+def get_random_photos(query=os.getenv('UNSPLASH_SEARCH_QUERY')):
+    photos = pu.photos(type_='random', count=1, featured=True, query=query)
 
-existing_ids = get_existing_ids()
+    existing_ids = get_existing_ids()
 
-for photo in photos.entries:
-    if photo.id in existing_ids:
-        break
+    for photo in photos.entries:
+        if photo.id in existing_ids:
+            print(f"Skipping {photo.id} as it has already been downloaded in the past.")
+            break
 
-    response = requests.get(photo.link_download, allow_redirects=True)
+        response = requests.get(photo.link_download, allow_redirects=True)
 
-    os.makedirs("run/images", exist_ok=True)
+        file = f"run/images/{photo.id}.jpg"
 
-    file = f"run/images/{photo.id}.jpg"
+        with open(file, 'wb') as f:
+            f.write(response.content)
 
-    with open(file, 'wb') as f:
-        f.write(response.content)
+        print(f"Downloaded {photo.id}")
 
-    print(f"Downloaded {photo.id}")
+        print(f"Compressing {photo.id}")
+        compress_image(file)
 
-    print(f"Compressing {photo.id}")
-    compress_image(file)
+        with open("run/image_ids.txt", "a") as f:
+            f.write(photo.id + "\n")
+    
+count = 30
 
-    with open("run/image_ids.txt", "a") as f:
-        f.write(photo.id + "\n")
+query = os.getenv('UNSPLASH_SEARCH_QUERY')
+queries = json.loads(os.getenv('UNSPLASH_RANDOM_QUERIES_LIST', '[]'))
+
+if queries == []:
+    print("No queries found in UNSPLASH_RANDOM_QUERIES_LIST. Using UNSPLASH_SEARCH_QUERY instead.")
+    query = os.getenv('UNSPLASH_SEARCH_QUERY')
+
+    for i in range(count):
+        print(f"Query: {query}")
+        get_random_photos(query=query)
+else:
+    for i in range(count):
+        query = random.choice(queries)
+        queries.remove(query)
+        print(f"Query: {query}")
+        get_random_photos(query=query)
 
 print("Completed downloading and compressing images.")
