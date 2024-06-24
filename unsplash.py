@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 print("Starting download and compression process...")
-print("Count:", os.getenv('UNSPLASH_DOWNLOAD_COUNT'))
 print("Query:", os.getenv('UNSPLASH_SEARCH_QUERY'))
 
 def get_existing_ids():
@@ -40,7 +39,7 @@ def compress_image(file_path, quality=85):
 
 pu = PyUnsplash(api_key=os.getenv('UNSPLASH_API_KEY'))
 
-photos = pu.photos(type_='random', count=os.getenv('UNSPLASH_DOWNLOAD_COUNT'), featured=True, query=os.getenv('UNSPLASH_SEARCH_QUERY'))
+photos = pu.photos(type_='random', count=48, featured=True, query=os.getenv('UNSPLASH_SEARCH_QUERY'))
 
 existing_ids = get_existing_ids()
 
