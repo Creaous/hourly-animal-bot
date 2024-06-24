@@ -2,8 +2,21 @@ import schedule
 import time
 import subprocess
 import datetime
+import os
 
 print("Starting scheduler...")
+
+def write_files():
+    os.makedirs("run", exist_ok=True)
+    os.makedirs("run/timings", exist_ok=True)
+    os.makedirs("run/images", exist_ok=True)
+
+    with open("run/timings/unsplash.txt", "w") as file:
+        file.write("")
+    with open("run/timings/twitter.txt", "w") as file:
+        file.write("")
+    with open("run/images_ids.txt", "w") as file:
+        file.write("")
 
 def write_timing(type):
     with open(f"run/timings/{type}.txt", "a") as file:
