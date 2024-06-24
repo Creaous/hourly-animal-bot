@@ -13,7 +13,26 @@ def get_existing_ids():
 def compress_image(file_path, quality=85):
     """Compress an image by resizing and reducing its quality."""
     img = Image.open(file_path)
-    img.save(file_path, quality=quality, optimize=True)
+
+    # Set the maximum width and height for the compressed image
+    max_width = 1920
+    max_height = 1080
+
+    # Calculate the new width and height while preserving the aspect ratio
+    width, height = img.size
+    aspect_ratio = width / height
+    if aspect_ratio > 1:
+        new_width = min(width, max_width)
+        new_height = int(new_width / aspect_ratio)
+    else:
+        new_height = min(height, max_height)
+        new_width = int(new_height * aspect_ratio)
+
+    # Resize the image
+    resized_img = img.resize((new_width, new_height))
+
+    # Save the compressed image
+    resized_img.save(file_path, quality=quality, optimize=True)
 
 pu = PyUnsplash(api_key=os.getenv('UNSPLASH_API_KEY'))
 

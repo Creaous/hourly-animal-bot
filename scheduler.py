@@ -28,7 +28,6 @@ for twitterTime in ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00
     print("Twitter task scheduled for {}".format(twitterTime))
     schedule.every().day.at(twitterTime, "Australia/Adelaide").do(run_task, "twitter")
 
-
 while True:
     schedule.run_pending()
     time.sleep(1)
